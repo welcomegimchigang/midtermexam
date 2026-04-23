@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import styles from './GameCanvas.module.css';
 
 const BRICK_ROWS = 5, BRICK_COLS = 8, BRICK_GAP = 6, TOP_OFFSET = 55, SIDE_OFFSET = 14;
@@ -79,13 +79,11 @@ function renderGame(ctx, gs) {
   bricks.forEach(b => {
     if (!b.alive) return;
     const col = COLORS[b.color];
-    ctx.shadowColor=col.glow; ctx.shadowBlur=10;
     drawRoundRect(ctx,b.x,b.y,b.w,b.h,5);
     const g=ctx.createLinearGradient(b.x,b.y,b.x,b.y+b.h);
     g.addColorStop(0,col.fill); g.addColorStop(1,col.stroke);
     ctx.fillStyle=g; ctx.fill();
     ctx.strokeStyle=col.stroke; ctx.lineWidth=1.5; ctx.stroke();
-    ctx.shadowBlur=0;
   });
   // Particles
   particles.forEach(p => {
@@ -96,18 +94,16 @@ function renderGame(ctx, gs) {
   // Paddle
   const pg=ctx.createLinearGradient(paddle.x,paddle.y,paddle.x,paddle.y+paddle.h);
   pg.addColorStop(0,'#818cf8'); pg.addColorStop(1,'#4f46e5');
-  ctx.shadowColor='rgba(79,70,229,0.8)'; ctx.shadowBlur=15;
   drawRoundRect(ctx,paddle.x,paddle.y,paddle.w,paddle.h,6);
-  ctx.fillStyle=pg; ctx.fill(); ctx.shadowBlur=0;
+  ctx.fillStyle=pg; ctx.fill();
   // Ball
-  ctx.shadowColor='rgba(251,191,36,0.9)'; ctx.shadowBlur=18;
   const bg2=ctx.createRadialGradient(ball.x-ball.r*0.3,ball.y-ball.r*0.3,1,ball.x,ball.y,ball.r);
   bg2.addColorStop(0,'#fef3c7'); bg2.addColorStop(1,'#f59e0b');
   ctx.beginPath(); ctx.arc(ball.x,ball.y,ball.r,0,Math.PI*2);
-  ctx.fillStyle=bg2; ctx.fill(); ctx.shadowBlur=0;
+  ctx.fillStyle=bg2; ctx.fill();
 }
 
-export default function GameCanvas({ running, onLifeLost, onRedBrickDestroyed, resetKey }) {
+const GameCanvas = memo(function GameCanvas({ running, onLifeLost, onRedBrickDestroyed, resetKey }) {
   const canvasRef = useRef(null);
   const wrapRef   = useRef(null);
   const rafRef    = useRef(null);
@@ -258,4 +254,6 @@ export default function GameCanvas({ running, onLifeLost, onRedBrickDestroyed, r
       <canvas ref={canvasRef} className={styles.canvas} />
     </div>
   );
-}
+});
+
+export default GameCanvas;
