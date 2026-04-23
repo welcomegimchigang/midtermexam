@@ -103,7 +103,7 @@ function renderGame(ctx, gs) {
   ctx.fillStyle=bg2; ctx.fill();
 }
 
-const GameCanvas = memo(function GameCanvas({ running, onLifeLost, onRedBrickDestroyed, resetKey }) {
+export default function GameCanvas({ running, onLifeLost, onRedBrickDestroyed, resetKey }) {
   const canvasRef = useRef(null);
   const wrapRef   = useRef(null);
   const rafRef    = useRef(null);
@@ -254,6 +254,4 @@ const GameCanvas = memo(function GameCanvas({ running, onLifeLost, onRedBrickDes
       <canvas ref={canvasRef} className={styles.canvas} />
     </div>
   );
-});
-
-export default GameCanvas;
+}
