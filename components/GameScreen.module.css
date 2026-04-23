@@ -165,6 +165,27 @@
 @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
 @media (max-width: 500px) {
-  .hud { flex-direction: column; gap: 6px; padding: 10px 14px; }
-  .overlayCard { padding: 28px 20px; }
+  .screen { padding: 10px; gap: 10px; }
+  .hud { flex-direction: column; gap: 8px; padding: 12px 14px; border-radius: 12px; }
+  .hudLeft, .hudCenter, .hudRight { width: 100%; justify-content: space-between; }
+  .separator { display: none; }
+  
+  .overlayCard { padding: 24px 16px; border-radius: 20px; width: 95%; gap: 14px; }
+  .overlayIcon { font-size: 3rem; }
+  .overlayTitle { font-size: 1.4rem; }
+  .victoryTitle { font-size: 1.5rem; }
+  
+  .countdownNum { font-size: 5rem; }
+  
+  .timeBox { padding: 14px 16px; border-radius: 14px; }
+  .timeClock { font-size: 1.6rem; }
+  .timeVal { font-size: 2.2rem; }
+  
+  .lbTitle { font-size: 0.9rem; margin-bottom: 6px; }
+  .lbRow { padding: 6px 10px; gap: 8px; border-radius: 8px; }
+  .lbName { font-size: 0.8rem; }
+  .lbTime { font-size: 0.85rem; }
+  
+  .btnPrimary, .btnSecondary, .ctrlBtn { padding: 10px 16px; font-size: 0.85rem; }
+  .controls { gap: 6px; padding: 0 5px; }
 }

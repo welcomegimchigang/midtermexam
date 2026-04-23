@@ -163,9 +163,23 @@
 @keyframes pulse { 0%,100% { transform:scale(1); opacity:0.6; } 50% { transform:scale(1.15); opacity:1; } }
 @keyframes shimmer { 0% { background-position:0% center; } 100% { background-position:200% center; } }
 
-/* 모바일: 세로 스택 */
+/* 모바일: 세로 스택 및 최적화 */
 @media (max-width: 700px) {
-  .layout { flex-direction: column; align-items: center; }
+  .layout { flex-direction: column; align-items: center; gap: 16px; }
   .rankCard { width: 100%; max-width: 440px; }
   .hints { grid-template-columns: 1fr; }
+}
+
+/* 초소형 모바일 집중 최적화 */
+@media (max-width: 480px) {
+  .container { padding: 12px; }
+  .card { padding: 24px 16px; border-radius: 20px; }
+  .rankCard { padding: 20px 16px; border-radius: 20px; }
+  .title { font-size: 1.6rem; }
+  .mascotGlow { width: 150px; height: 150px; }
+  .mascot { max-width: 130px; height: auto; }
+  .input { padding: 10px 14px; font-size: 16px; } /* iOS 자동 확대 방지 (16px 이상) */
+  .startBtn { padding: 12px; font-size: 0.95rem; }
+  .rankTitle { font-size: 1rem; }
+  .rankRow { padding: 8px 10px; gap: 8px; }
 }
