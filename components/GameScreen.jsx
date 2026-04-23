@@ -68,6 +68,7 @@ export default function GameScreen({ playerName, onRestart }) {
   const timerRef   = useRef(null);
   const phaseRef   = useRef('countdown');
   const elapsedRef = useRef(0); // ref for stale-closure-safe elapsed
+  const savedScoreRef = useRef(false); // 점수 중복 저장 방지
 
   phaseRef.current = phase;
 
@@ -125,7 +126,8 @@ export default function GameScreen({ playerName, onRestart }) {
     if (phaseRef.current !== 'playing') return;
     setRedCount(c => {
       const next = c + 1;
-      if (next >= 3) {
+      if (next >= 3 && !savedScoreRef.current) {
+        savedScoreRef.current = true;
         setPhase('victory');
         const secs = elapsedRef.current;
         const t = formatTime(secs);
@@ -144,6 +146,7 @@ export default function GameScreen({ playerName, onRestart }) {
   const handleFullRestart = () => {
     setLives(3); setElapsed(0); elapsedRef.current = 0;
     setRedCount(0); setFinalTime(''); setLeaderboard([]);
+    savedScoreRef.current = false;
     setResetKey(k => k + 1);
     setPhase('countdown');
   };
@@ -221,16 +224,22 @@ export default function GameScreen({ playerName, onRestart }) {
                 <div className={styles.cardIcon}>🎉</div>
                 <h2 className={styles.victoryTitle}>미션 성공!</h2>
                 <div className={styles.timeBox}>
-                  <span className={styles.timeLabel}>완료 시간</span>
-                  <span className={styles.timeVal}>{finalTime}</span>
+                  <p className={styles.timeMsg}>
+                    <span className={styles.timeName}>{playerName}</span>님의 클리어 기록
+                  </p>
+                  <div className={styles.timeRow}>
+                    <span className={styles.timeClock}>⏱</span>
+                    <span className={styles.timeVal}>{finalTime}</span>
+                  </div>
+                  <p className={styles.timeDesc}>걸린 시간 (분 : 초)</p>
                 </div>
                 {leaderboard.length > 0 && (
                   <div className={styles.lb}>
                     <h3 className={styles.lbTitle}>🏆 Top 3</h3>
                     {leaderboard.map((e,i)=>(
-                      <div key={i} className={styles.lbRow}>
+                      <div key={i} className={`${styles.lbRow} ${e.name === playerName ? styles.lbMe : ''}`}>
                         <span>{['🥇','🥈','🥉'][i]}</span>
-                        <span className={styles.lbName}>{e.name}</span>
+                        <span className={styles.lbName}>{e.name}{e.name === playerName ? ' 👈' : ''}</span>
                         <span className={styles.lbTime}>{e.time}</span>
                       </div>
                     ))}
