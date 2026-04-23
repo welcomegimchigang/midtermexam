@@ -182,77 +182,6 @@ export default function GameScreen({ playerName, onRestart }) {
           onRedBrickDestroyed={handleRedBrickDestroyed}
           resetKey={resetKey}
         />
-
-        {phase === 'countdown' && (
-          <div className={styles.overlay}>
-            <div className={styles.cdBox}>
-              <p className={styles.cdLabel}>준비하세요!</p>
-              <div className={styles.cdNum} key={countdown}>{countdown}</div>
-            </div>
-          </div>
-        )}
-
-        {phase === 'paused' && (
-          <div className={styles.overlay}>
-            <div className={styles.card}>
-              <div className={styles.cardIcon}>⏸</div>
-              <h2 className={styles.cardTitle}>일시 정지</h2>
-              <button className={styles.btnPrimary} onClick={handleResume}>▶ 계속하기</button>
-            </div>
-          </div>
-        )}
-
-        {phase === 'gameover' && (
-          <div className={styles.overlay}>
-            <div className={styles.card}>
-              <div className={styles.cardIcon}>💔</div>
-              <h2 className={styles.cardTitle}>게임 미션 실패</h2>
-              <p className={styles.cardMsg}>아쉽네요! 다시 도전해보세요.</p>
-              <div className={styles.btnRow}>
-                <button className={styles.btnPrimary}   onClick={handleFullRestart}>🔄 다시 도전</button>
-                <button className={styles.btnSecondary} onClick={onRestart}>🏠 처음으로</button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {phase === 'victory' && (
-          <>
-            <Confetti />
-            <div className={styles.overlay}>
-              <div className={`${styles.card} ${styles.victoryCard}`}>
-                <div className={styles.cardIcon}>🎉</div>
-                <h2 className={styles.victoryTitle}>미션 성공!</h2>
-                <div className={styles.timeBox}>
-                  <p className={styles.timeMsg}>
-                    <span className={styles.timeName}>{playerName}</span>님의 클리어 기록
-                  </p>
-                  <div className={styles.timeRow}>
-                    <span className={styles.timeClock}>⏱</span>
-                    <span className={styles.timeVal}>{finalTime}</span>
-                  </div>
-                  <p className={styles.timeDesc}>걸린 시간 (분 : 초)</p>
-                </div>
-                {leaderboard.length > 0 && (
-                  <div className={styles.lb}>
-                    <h3 className={styles.lbTitle}>🏆 Top 3</h3>
-                    {leaderboard.map((e,i)=>(
-                      <div key={i} className={`${styles.lbRow} ${e.name === playerName ? styles.lbMe : ''}`}>
-                        <span>{['🥇','🥈','🥉'][i]}</span>
-                        <span className={styles.lbName}>{e.name}{e.name === playerName ? ' 👈' : ''}</span>
-                        <span className={styles.lbTime}>{e.time}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className={styles.btnRow}>
-                  <button className={styles.btnPrimary}   onClick={handleFullRestart}>🔄 다시 도전</button>
-                  <button className={styles.btnSecondary} onClick={onRestart}>🏠 처음으로</button>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
       </div>
 
       {/* Controls */}
@@ -262,6 +191,78 @@ export default function GameScreen({ playerName, onRestart }) {
         <button id="restart-btn" className={`${styles.ctrl} ${styles.ctrlWarn}`}   onClick={handleFullRestart}>🔄 다시시작</button>
         <button id="exit-btn"    className={`${styles.ctrl} ${styles.ctrlDanger}`} onClick={onRestart}>🚪 종료</button>
       </div>
+
+      {/* Global Overlays (covers everything) */}
+      {phase === 'countdown' && (
+        <div className={styles.overlay}>
+          <div className={styles.cdBox}>
+            <p className={styles.cdLabel}>준비하세요!</p>
+            <div className={styles.cdNum} key={countdown}>{countdown}</div>
+          </div>
+        </div>
+      )}
+
+      {phase === 'paused' && (
+        <div className={styles.overlay}>
+          <div className={styles.overlayCard}>
+            <div className={styles.cardIcon}>⏸</div>
+            <h2 className={styles.cardTitle}>일시 정지</h2>
+            <button className={styles.btnPrimary} onClick={handleResume}>▶ 계속하기</button>
+          </div>
+        </div>
+      )}
+
+      {phase === 'gameover' && (
+        <div className={styles.overlay}>
+          <div className={styles.overlayCard}>
+            <div className={styles.cardIcon}>💔</div>
+            <h2 className={styles.cardTitle}>게임 미션 실패</h2>
+            <p className={styles.cardMsg}>아쉽네요! 다시 도전해보세요.</p>
+            <div className={styles.btnRow}>
+              <button className={styles.btnPrimary}   onClick={handleFullRestart}>🔄 다시 도전</button>
+              <button className={styles.btnSecondary} onClick={onRestart}>🏠 처음으로</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {phase === 'victory' && (
+        <>
+          <Confetti />
+          <div className={styles.overlay}>
+            <div className={`${styles.overlayCard} ${styles.victoryCard}`}>
+              <div className={styles.cardIcon}>🎉</div>
+              <h2 className={styles.victoryTitle}>미션 성공!</h2>
+              <div className={styles.timeBox}>
+                <p className={styles.timeMsg}>
+                  <span className={styles.timeName}>{playerName}</span>님의 클리어 기록
+                </p>
+                <div className={styles.timeRow}>
+                  <span className={styles.timeClock}>⏱</span>
+                  <span className={styles.timeVal}>{finalTime}</span>
+                </div>
+                <p className={styles.timeDesc}>걸린 시간 (분 : 초)</p>
+              </div>
+              {leaderboard.length > 0 && (
+                <div className={styles.lb}>
+                  <h3 className={styles.lbTitle}>🏆 Top 3</h3>
+                  {leaderboard.map((e,i)=>(
+                    <div key={i} className={`${styles.lbRow} ${e.name === playerName ? styles.lbMe : ''}`}>
+                      <span>{['🥇','🥈','🥉'][i]}</span>
+                      <span className={styles.lbName}>{e.name}{e.name === playerName ? ' 👈' : ''}</span>
+                      <span className={styles.lbTime}>{e.time}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className={styles.btnRow}>
+                <button className={styles.btnPrimary}   onClick={handleFullRestart}>🔄 다시 도전</button>
+                <button className={styles.btnSecondary} onClick={onRestart}>🏠 처음으로</button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
