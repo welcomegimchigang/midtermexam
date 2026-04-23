@@ -39,11 +39,11 @@
 
 /* Overlays */
 .overlay {
-  position: absolute; inset: 0;
+  position: fixed; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(10,10,20,0.85);
+  background: rgba(10,10,20,0.9);
   backdrop-filter: blur(6px);
-  border-radius: 16px; z-index: 10;
+  z-index: 1000;
   animation: fadeIn 0.3s ease;
 }
 .overlayCard {
@@ -123,6 +123,7 @@
 .lbTime { color: #a78bfa; font-weight: 700; font-size: 0.9rem; font-variant-numeric: tabular-nums; }
 
 /* Buttons */
+.btnRow { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 5px; width: 100%; }
 .overlayBtns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .btnPrimary {
   padding: 12px 24px;
@@ -170,22 +171,30 @@
   .hudLeft, .hudCenter, .hudRight { width: 100%; justify-content: space-between; }
   .separator { display: none; }
   
-  .overlayCard { padding: 24px 16px; border-radius: 20px; width: 95%; gap: 14px; }
-  .overlayIcon { font-size: 3rem; }
-  .overlayTitle { font-size: 1.4rem; }
-  .victoryTitle { font-size: 1.5rem; }
+  .overlayCard { 
+    padding: 24px 16px; 
+    border-radius: 20px; 
+    width: 95%; 
+    gap: 12px; 
+    max-height: 95vh; 
+    overflow-y: auto; 
+  }
+  .overlayIcon { font-size: 2.5rem; }
+  .overlayTitle { font-size: 1.3rem; }
+  .victoryTitle { font-size: 1.4rem; }
   
   .countdownNum { font-size: 5rem; }
   
-  .timeBox { padding: 14px 16px; border-radius: 14px; }
-  .timeClock { font-size: 1.6rem; }
-  .timeVal { font-size: 2.2rem; }
+  .timeBox { padding: 12px 14px; border-radius: 14px; gap: 4px; }
+  .timeClock { font-size: 1.4rem; }
+  .timeVal { font-size: 2rem; }
   
   .lbTitle { font-size: 0.9rem; margin-bottom: 6px; }
   .lbRow { padding: 6px 10px; gap: 8px; border-radius: 8px; }
   .lbName { font-size: 0.8rem; }
   .lbTime { font-size: 0.85rem; }
   
-  .btnPrimary, .btnSecondary, .ctrlBtn { padding: 10px 16px; font-size: 0.85rem; }
+  .btnRow { gap: 8px; }
+  .btnPrimary, .btnSecondary, .ctrlBtn { padding: 10px 14px; font-size: 0.85rem; flex: 1; min-width: 100px; white-space: nowrap; }
   .controls { gap: 6px; padding: 0 5px; }
 }
