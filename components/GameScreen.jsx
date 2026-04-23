@@ -142,7 +142,14 @@ export default function GameScreen({ playerName, onRestart }) {
   const handlePause  = () => { if (phase === 'playing') setPhase('paused'); };
   const handleResume = () => { if (phase === 'paused')  setPhase('playing'); };
 
-
+  // 다시 도전 (게임 리셋)
+  const handleFullRestart = () => {
+    setLives(3); setElapsed(0); elapsedRef.current = 0;
+    setRedCount(0); setFinalTime(''); setLeaderboard([]);
+    savedScoreRef.current = false;
+    setResetKey(k => k + 1);
+    setPhase('countdown');
+  };
 
   return (
     <div className={styles.screen}>
@@ -202,7 +209,8 @@ export default function GameScreen({ playerName, onRestart }) {
               <h2 className={styles.cardTitle}>게임 미션 실패</h2>
               <p className={styles.cardMsg}>아쉽네요! 다시 도전해보세요.</p>
               <div className={styles.btnRow}>
-                <button className={styles.btnPrimary} onClick={onRestart}>🔄 다시 시작</button>
+                <button className={styles.btnPrimary}   onClick={handleFullRestart}>🔄 다시 도전</button>
+                <button className={styles.btnSecondary} onClick={onRestart}>🏠 처음으로</button>
               </div>
             </div>
           </div>
@@ -238,7 +246,8 @@ export default function GameScreen({ playerName, onRestart }) {
                   </div>
                 )}
                 <div className={styles.btnRow}>
-                  <button className={styles.btnPrimary} onClick={onRestart}>🔄 다시 시작</button>
+                  <button className={styles.btnPrimary}   onClick={handleFullRestart}>🔄 다시 도전</button>
+                  <button className={styles.btnSecondary} onClick={onRestart}>🏠 처음으로</button>
                 </div>
               </div>
             </div>
@@ -250,7 +259,8 @@ export default function GameScreen({ playerName, onRestart }) {
       <div className={styles.controls}>
         {phase === 'playing' && <button id="pause-btn"  className={styles.ctrl} onClick={handlePause}>⏸ 멈춤</button>}
         {phase === 'paused'  && <button id="resume-btn" className={styles.ctrl} onClick={handleResume}>▶ 계속</button>}
-        <button id="restart-btn" className={`${styles.ctrl} ${styles.ctrlWarn}`} onClick={onRestart}>🔄 다시 시작</button>
+        <button id="restart-btn" className={`${styles.ctrl} ${styles.ctrlWarn}`}   onClick={handleFullRestart}>🔄 다시시작</button>
+        <button id="exit-btn"    className={`${styles.ctrl} ${styles.ctrlDanger}`} onClick={onRestart}>🚪 종료</button>
       </div>
     </div>
   );
